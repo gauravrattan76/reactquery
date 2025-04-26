@@ -1,3 +1,32 @@
+✅ Correct Behavior: cacheTime > staleTime
+If you set:
+
+javascript
+Copy
+Edit
+staleTime: 5 minutes,
+cacheTime: 10 minutes,
+then:
+
+Fetch happens.
+
+Data is fresh for 5 minutes (no refetch).
+
+Even if user leaves the page, data stays cached for 10 minutes.
+
+User returns within 5 minutes → No refetch needed (fast, instant UI).
+
+After 5 minutes, if user focuses window, it refetches because stale, but still can reuse old data while refetching (isFetching).
+
+✅ Better UX!
+
+✅ Fewer network calls!
+
+✅ Instant feel when user navigates back!
+
+
+_____________________________
+
 🎯 Main Difference Between staleTime and cacheTime
 | Concept | staleTime | cacheTime | |:---|:---| | What it controls | Freshness of the data | Lifetime of the data in memory | | When it applies | Right after data is fetched | After the component using the query unmounts | | Default Value | 0 milliseconds (data becomes stale immediately) | 5 minutes (data stays in cache 5 mins after last usage) | | Purpose | Determines whether a refetch is needed | Determines when cached data is deleted | | Example | "Is this data still valid?" | "Should we throw this data away?" |
 
@@ -8,6 +37,8 @@ How fresh the data is considered after it is fetched.
 During staleTime duration, React Query won't refetch automatically (unless forced manually).
 
 After staleTime passes, the data is considered stale and React Query may refetch (like on window focus, or remount).
+
+
 
 ⏳ Example:
 
