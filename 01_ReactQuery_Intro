@@ -1,0 +1,24 @@
+React Query-
+______________________________________-
+
+
+A library for fetching data in application.
+
+State management libraries are not great for working with asynchronous or server state
+
+
+Client state-
+
+Persisted in your app memory and accessing or updating is synhronous
+
+
+
+Server state -
+
+
+Persisted remotely and required asynchronous api fetching
+
+Challenges when we have to deal with caching, updating data in background, performance optimization.
+
+
+______________________________________
