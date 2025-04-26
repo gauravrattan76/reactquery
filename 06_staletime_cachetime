@@ -24,6 +24,15 @@ After 5 minutes, if user focuses window, it refetches because stale, but still c
 
 ✅ Instant feel when user navigates back!
 
+__________________
+
+
+🎯 Default values in React Query (TanStack Query)
+
+Setting	Default Value	Meaning
+staleTime	0 milliseconds	Data becomes stale immediately after fetch.
+cacheTime	300,000 milliseconds (5 minutes)	Data stays cached for 5 minutes after no component uses it.
+
 
 _____________________________
 
