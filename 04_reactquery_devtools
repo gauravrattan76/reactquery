@@ -1,0 +1,43 @@
+
+import { BrowserRouter as Router, Route, Routes, Link} from 'react-router-dom'
+import {  QueryClientProvider, QueryClient} from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import './App.css'
+import Home from './components/Home'
+import Superhero from './components/Superhero'
+import RQSuperhero from './components/RQSuperhero'
+const queryClient = new QueryClient();
+
+function App() {
+ 
+
+  return (
+    <>
+    <QueryClientProvider client={queryClient}>
+    <Router>
+    <nav >
+    <ul>
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/superhero">Superhero</Link>
+            </li>
+            <li>
+              <Link to="/rqsuperhero">RQSuperhero</Link>
+            </li>
+          </ul>
+          </nav>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/superhero" element={<Superhero />} />
+            <Route path="/rqsuperhero" element={<RQSuperhero />} />
+          </Routes>
+        </Router>
+        <ReactQueryDevtools initialIsOpen={true} position='bottom-right' />
+      </QueryClientProvider>
+    </>
+  )
+}
+
+export default App
