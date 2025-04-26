@@ -1,0 +1,45 @@
+React Query setup-
+______________________
+
+
+In app.jsx - 
+
+Register the provide and client at the app route level-
+
+ const queryClient = new QueryClient();
+
+  return (
+    <>
+    <QueryClientProvider client={queryClient}>
+_________________________________________
+
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+
+export const RQSuperhero = () => {
+    const fetchSuperheroes = async () => {
+        const {data} = await axios.get("https://jsonplaceholder.typicode.com/todos");
+     return data;
+}
+    const {isLoading, data} = useQuery({
+        queryKey: ['super-heroes'],
+        queryFn: fetchSuperheroes,
+      })
+
+    
+    if(isLoading){
+        return <div>Loading.......</div>
+    }
+
+    return (
+        <>This is the super hero deom rq :
+          <ul>
+  {data?.map(hero => (
+    <li key={hero.id}>{hero.title}</li>
+  ))}
+</ul>
+        </>
+    )
+}
+
+export default RQSuperhero;
