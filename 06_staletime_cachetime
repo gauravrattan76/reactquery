@@ -1,0 +1,55 @@
+🎯 Main Difference Between staleTime and cacheTime
+| Concept | staleTime | cacheTime | |:---|:---| | What it controls | Freshness of the data | Lifetime of the data in memory | | When it applies | Right after data is fetched | After the component using the query unmounts | | Default Value | 0 milliseconds (data becomes stale immediately) | 5 minutes (data stays in cache 5 mins after last usage) | | Purpose | Determines whether a refetch is needed | Determines when cached data is deleted | | Example | "Is this data still valid?" | "Should we throw this data away?" |
+
+🔥 Explained with Real Examples:
+1. staleTime
+How fresh the data is considered after it is fetched.
+
+During staleTime duration, React Query won't refetch automatically (unless forced manually).
+
+After staleTime passes, the data is considered stale and React Query may refetch (like on window focus, or remount).
+
+⏳ Example:
+
+javascript
+Copy
+Edit
+useQuery({
+  queryKey: ['todos'],
+  queryFn: fetchTodos,
+  staleTime: 60000, // 1 minute
+});
+After fetching, data is fresh for 1 minute.
+
+During this 1 min:
+✅ No refetch happens automatically.
+
+After 1 min:
+⚡ Data is stale → React Query may auto-refetch on tab focus or remount.
+
+2. cacheTime
+How long the data stays in memory after nobody is using it.
+
+If a query has no active components (unmounted),
+
+React Query starts a timer based on cacheTime.
+
+After that timer, it garbage collects (deletes) the query data.
+
+⏳ Example:
+
+javascript
+Copy
+Edit
+useQuery({
+  queryKey: ['todos'],
+  queryFn: fetchTodos,
+  cacheTime: 300000, // 5 minutes
+});
+When no component is using ['todos'] query:
+
+React Query keeps the data in memory for 5 minutes.
+
+If you come back within 5 mins: ✅ Old data is reused instantly (fast UX).
+
+After 5 mins: 🗑️ Data is deleted, a full refetch happens.
