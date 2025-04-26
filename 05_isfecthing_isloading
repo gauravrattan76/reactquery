@@ -12,3 +12,26 @@ isfetching will be true if data isfetcyed
 is laoding is onky true fir the first time and the it cahches data if dont speciy time for 5 mins
 
 hence we se loader only for the first time.
+
+
+________________
+
+
+useQuery({
+  queryKey: ['super-heroes'],
+  queryFn: fetchSuperheroes,
+  staleTime: 0,
+  cacheTime: 0,
+  refetchOnMount: true,
+  refetchOnWindowFocus: true,
+})
+
+
+staleTime: 0 → Data becomes stale immediately.
+
+cacheTime: 0 → Data is garbage collected immediately after unused.
+
+refetchOnMount: true → Refetch when component mounts if data is stale.
+
+BUT if cache is already deleted (because cacheTime: 0), then no cached data exists.
+
