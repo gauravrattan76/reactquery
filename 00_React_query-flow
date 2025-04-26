@@ -1,0 +1,87 @@
+🧠 How React Query uses cache and loaders
+When you call useQuery, this happens:
+
+
+Step	What happens
+1	If cached data exists → show old data immediately (fast UI, no loader).
+2	Meanwhile in background → start refetching if data is stale.
+3	Once new data arrives → update the screen quietly (soft update).
+✅ So, loader is skipped because cache is available.
+✅ User sees something instantly (good UX).
+✅ Meanwhile, new network request refreshes data in background (silent update).
+
+
+When you call useQuery, this happens:
+
+
+Step	What happens
+1	If cached data exists → show old data immediately (fast UI, no loader).
+2	Meanwhile in background → start refetching if data is stale.
+3	Once new data arrives → update the screen quietly (soft update).
+✅ So, loader is skipped because cache is available.
+✅ User sees something instantly (good UX).
+✅ Meanwhile, new network request refreshes data in background (silent update).
+
+📦 Key idea: isLoading vs isFetching
+
+Concept	When it is true
+isLoading	Only true during the very first load when there is no cache.
+isFetching	true whenever a background refetch is happening, even if cache exists.
+So:
+
+isLoading: true → Blank screen / loader.
+
+isFetching: true → Old data shown, but new data coming silently.
+
+📈 Real Flow (Timeline)
+text
+Copy
+Edit
+First time visiting page:
+  - No cache → isLoading: true → Show loading spinner
+  - Data fetched → isLoading: false
+
+Next time visiting page:
+  - Cache exists → isLoading: false (no loader)
+  - Data stale → isFetching: true → Silent background refetch
+  - New data arrives → UI updates
+🛠 Example Code:
+javascript
+Copy
+Edit
+const { data, isLoading, isFetching } = useQuery({
+  queryKey: ['todos'],
+  queryFn: fetchTodos,
+  staleTime: 30000, // 30 seconds
+});
+Behavior:
+
+First load → isLoading: true ➔ Show loading spinner.
+
+After load, data is cached.
+
+If user navigates away and returns within 30 seconds →
+➔ isLoading: false, but isFetching may be true to refresh.
+
+🎯 So simply:
+
+Question	Answer
+Why does React Query skip loader after first time?	Because it uses cached data immediately.
+Does it still update the data?	Yes, it fetches fresh data in background using isFetching.
+📢 Important Tip
+If you want even more control, you can also use:
+
+javascript
+Copy
+Edit
+keepPreviousData: true
+in useQuery — this makes sure that even when parameters change (like pagination), React Query shows old data instantly until new data comes.
+
+✨ Final Summary
+✅ Loader is only shown when no cache exists.
+✅ Cached data is immediately reused (no loader again).
+✅ New data is fetched in background (isFetching: true).
+✅ UI is updated silently when new data arrives.
+
+Would you like me to also show a small visual React component 🎨 that shows loader only at first, and "Background Fetching..." when isFetching happens? 🚀
+It’s super cool to see it live! Want it? 🎯✨
