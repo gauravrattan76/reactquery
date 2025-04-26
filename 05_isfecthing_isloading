@@ -1,0 +1,14 @@
+    const {isLoading, data, isError, error, isFetching} = useQuery({
+        queryKey: ['super-heroes'],
+        queryFn: fetchSuperheroes,
+   cacheTime: 2000,
+   refetchOnMount: true,   
+      })
+
+
+isfetching will be true if data isfetcyed
+
+
+is laoding is onky true fir the first time and the it cahches data if dont speciy time for 5 mins
+
+hence we se loader only for the first time.
