@@ -1,0 +1,34 @@
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+
+export const RQSuperhero = () => {
+    const fetchSuperheroes = async () => {
+        const {data} = await axios.get("https://jsonplaceholder.typicode.com/todosss");
+     return data;
+}
+    const {isLoading, data, isError, error} = useQuery({
+        queryKey: ['super-heroes'],
+        queryFn: fetchSuperheroes,
+      })
+
+    
+    if(isLoading){
+        return <div>Loading.......</div>
+    }
+
+    if(isError){
+        return <div>{error.message}</div>
+    }
+
+    return (
+        <>This is the super hero deom rq :
+          <ul>
+  {data?.map(hero => (
+    <li key={hero.id}>{hero.title}</li>
+  ))}
+</ul>
+        </>
+    )
+}
+
+export default RQSuperhero;
